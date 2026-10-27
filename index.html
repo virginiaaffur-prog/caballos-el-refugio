@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#2f4a34">
+<title>Caballos El Refugio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: banda verde de monte arriba, contenido en tarjetas simples, barra de navegación abajo con botones grandes (uso a campo, con el pulgar). */
+:root{
+  --bg:#f2f0ea; --surface:#ffffff; --ink:#22261f; --muted:#646a5d; --line:#dcd8cc;
+  --monte:#2f4a34; --monte-ink:#f4f1e6; --cuero:#8a5a2b; --cuero-soft:#f3e7d8;
+  --bad:#b3261e; --bad-bg:#fbe5e2; --warn:#9a6400; --warn-bg:#fbefd2; --ok:#2e7031; --ok-bg:#e3f1e1; --done:#6b6f66; --done-bg:#ecebe6;
+  --f-display:"Bitter", Georgia, "Times New Roman", serif;
+  --f-body:"Barlow", "Segoe UI", Roboto, Arial, sans-serif;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#151812; --surface:#1e231b; --ink:#ebe8dd; --muted:#a3a896; --line:#343a2e;
+  --monte:#22341f; --monte-ink:#ece8d8; --cuero:#d19a63; --cuero-soft:#33281c;
+  --bad:#ff8c7f; --bad-bg:#3e1d19; --warn:#f2bf5a; --warn-bg:#3a2e12; --ok:#8fd48e; --ok-bg:#1c3320; --done:#a6a99e; --done-bg:#2a2e26; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#151812; --surface:#1e231b; --ink:#ebe8dd; --muted:#a3a896; --line:#343a2e;
+  --monte:#22341f; --monte-ink:#ece8d8; --cuero:#d19a63; --cuero-soft:#33281c;
+  --bad:#ff8c7f; --bad-bg:#3e1d19; --warn:#f2bf5a; --warn-bg:#3a2e12; --ok:#8fd48e; --ok-bg:#1c3320; --done:#a6a99e; --done-bg:#2a2e26; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0}[hidden]{display:none!important}img{max-width:100%}
+:root{padding-top:env(safe-area-inset-top,0px)}
+.login{max-width:420px;margin:12vh auto 0;text-align:center}
+.gbtn{background:#fff;color:#1f1f1f;border:1.5px solid #dadce0;min-height:52px;width:100%;font-size:1.05rem}
+
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--monte)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:980px;margin:0 auto}
+header.top{background:var(--monte);color:var(--monte-ink);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header.top .wrap{display:flex;align-items:center;gap:12px;padding-block:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.brand svg{flex:none}
+.brand h1{font-family:var(--f-display);font-size:1.25rem;margin:0;line-height:1.1;text-wrap:balance}
+.brand small{display:block;font-size:.8rem;opacity:.8;letter-spacing:.06em;text-transform:uppercase}
+.top select{background:transparent;color:var(--monte-ink);border:1px solid color-mix(in srgb,var(--monte-ink) 40%,transparent);border-radius:8px;padding:8px;font:inherit;font-size:.9rem;max-width:180px}
+.top select option{color:#222;background:#fff}
+.btn{appearance:none;border:0;border-radius:10px;padding:12px 16px;font:600 1rem var(--f-body);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;text-decoration:none}
+.btn:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,.chip:focus-visible{outline:3px solid var(--cuero);outline-offset:2px}
+.btn-main{background:var(--cuero);color:#fff}
+:root[data-theme="dark"] .btn-main{color:#1a130b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn-main{color:#1a130b}}
+.btn-line{background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost{background:transparent;color:var(--monte-ink);border:1.5px solid color-mix(in srgb,var(--monte-ink) 45%,transparent);min-height:40px;padding:8px 12px;font-size:.9rem}
+.btn-danger{background:var(--bad-bg);color:var(--bad)}
+.btn-sm{min-height:36px;padding:6px 10px;font-size:.88rem}
+.btn-block{width:100%}
+main{padding-block:18px}
+h2{font-family:var(--f-display);font-size:1.45rem;margin:4px 0 12px;text-wrap:balance}
+h3{font-family:var(--f-display);font-size:1.1rem;margin:0 0 8px}
+.lbl{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.tile{border-radius:var(--r);padding:12px;border:1px solid var(--line);background:var(--surface)}
+.tile b{display:block;font-family:var(--f-display);font-size:1.8rem;line-height:1;font-variant-numeric:tabular-nums}
+.tile.bad{background:var(--bad-bg);border-color:transparent;color:var(--bad)}
+.tile.warn{background:var(--warn-bg);border-color:transparent;color:var(--warn)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:.8rem;font-weight:700;letter-spacing:.03em;white-space:nowrap}
+.pill.VENCIDO{background:var(--bad-bg);color:var(--bad)}
+.pill.PRÓXIMO{background:var(--warn-bg);color:var(--warn)}
+.pill.AL{background:var(--ok-bg);color:var(--ok)}
+.pill.CUMPLIDO,.pill.REGISTRADO{background:var(--done-bg);color:var(--done)}
+.alert-item{display:grid;grid-template-columns:6px 1fr auto;gap:12px;align-items:center;padding:12px 14px 12px 0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;cursor:pointer}
+.alert-item .bar{align-self:stretch}
+.alert-item.VENCIDO .bar{background:var(--bad)} .alert-item.PRÓXIMO .bar{background:var(--warn)} .alert-item.AL .bar{background:var(--ok)}
+.alert-item strong{font-size:1.05rem}
+.muted{color:var(--muted)}
+.horse{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit}
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--cuero-soft);color:var(--cuero);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.2rem}
+.horse .name{font-family:var(--f-display);font-size:1.15rem;font-weight:700}
+.horse .meta{font-size:.9rem;color:var(--muted)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px 16px}
+.kv div{min-width:0}
+.kv>div>span{display:block;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.kv b{font-weight:600;word-break:break-word}
+label.f{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:.95rem;min-width:0}
+input,select,textarea{font:inherit;font-size:1rem;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);min-height:48px;width:100%}
+textarea{min-height:70px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:10px 14px;font:600 .95rem var(--f-body);cursor:pointer;min-height:44px}
+.chip[aria-pressed="true"]{background:var(--monte);color:var(--monte-ink);border-color:var(--monte)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.total td{font-weight:700;background:var(--cuero-soft)}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);z-index:6;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+nav.bottom .in{display:grid;grid-template-columns:repeat(6,1fr);max-width:980px;margin:0 auto}
+nav.bottom button{appearance:none;border:0;background:transparent;color:var(--muted);font:600 .72rem var(--f-body);display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 2px;min-height:64px;cursor:pointer}
+nav.bottom button[aria-current="page"]{color:var(--monte)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) nav.bottom button[aria-current="page"]{color:var(--cuero)}}
+:root[data-theme="dark"] nav.bottom button[aria-current="page"]{color:var(--cuero)}
+nav.bottom button.cargar{color:var(--cuero)}
+nav.bottom svg{width:26px;height:26px}
+.sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+.sheet-head{position:sticky;top:0;background:var(--monte);color:var(--monte-ink);z-index:2}
+.sheet-head .wrap{display:flex;align-items:center;gap:10px;padding-block:10px}
+.sheet-head h2{color:var(--monte-ink);margin:0;flex:1;font-size:1.3rem}
+.banner{border-radius:var(--r);padding:12px 14px;background:var(--cuero-soft);color:var(--ink);border:1px solid var(--line)}
+.banner.bad{background:var(--bad-bg);color:var(--bad)}
+.empty{text-align:center;padding:28px 16px;color:var(--muted)}
+.empty svg{opacity:.55}
+#toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:10px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
+.sec-title{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hist{display:flex;flex-direction:column;gap:8px}
+.hist .h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.hist .h:last-child{border-bottom:0}
+details summary{cursor:pointer;font-weight:600;padding:6px 0}
+.req{color:var(--bad)}
+@media (max-width:520px){.tiles{grid-template-columns:repeat(3,1fr)}.tile b{font-size:1.5rem}.brand h1{font-size:1.1rem}}
+@media (prefers-reduced-motion:no-preference){.alert-item,.horse{transition:transform .12s}.alert-item:active,.horse:active{transform:scale(.99)}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5c-8 0-13 6-13 14 0 6 2 11 4 15h5l-2-6c-1-3-1-6-1-9 0-4 3-8 7-8s7 4 7 8c0 3 0 6-1 9l-2 6h5c2-4 4-9 4-15 0-8-5-14-13-14z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="10.5" cy="18" r="1.4" fill="currentColor"/><circle cx="29.5" cy="18" r="1.4" fill="currentColor"/><circle cx="11.5" cy="25" r="1.4" fill="currentColor"/><circle cx="28.5" cy="25" r="1.4" fill="currentColor"/></svg>
+      <div><h1 id="brand-name">Cabaña El Alba</h1><small id="brand-sub">Establecimiento El Refugio</small></div>
+    </div>
+    <select id="cabana-sel" aria-label="Cabaña"></select>
+    <button class="btn btn-ghost" id="btn-excel" data-act="excel" hidden>
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Excel
+    </button>
+    <button class="btn btn-ghost" id="btn-salir" data-act="salir" hidden>Salir</button>
+  </div>
+</header>
+
+<main class="wrap" id="view" aria-live="polite">
+  <div class="empty"><p>Cargando los caballos…</p></div>
+</main>
+
+<nav class="bottom" aria-label="Secciones">
+  <div class="in">
+    <button data-tab="alertas" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 016 6v4l2 3H4l2-3V9a6 6 0 016-6zm-2 16a2 2 0 004 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Alertas</button>
+    <button data-tab="caballos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-4.5 0-7 3.5-7 8 0 3.5 1 6.5 2.3 9h3l-1.2-3.6c-.6-1.8-.6-3.6-.6-5.4 0-2.4 1.6-4.6 3.5-4.6s3.5 2.2 3.5 4.6c0 1.8 0 3.6-.6 5.4L13.7 20h3c1.3-2.5 2.3-5.5 2.3-9 0-4.5-2.5-8-7-8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Caballos</button>
+    <button data-tab="cargar" class="cargar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="currentColor"/><path d="M12 7.5v9M7.5 12h9" stroke="var(--surface)" stroke-width="2.4" stroke-linecap="round"/></svg>Cargar</button>
+    <button data-tab="registro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16H6zM9 9h6M9 13h6M9 17h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>Registro</button>
+    <button data-tab="costos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M16.5 7.5c-.8-1.3-2.5-2-4.5-2-2.6 0-4.5 1.3-4.5 3.2 0 4.6 9.3 2.4 9.3 6.9 0 2-2 3.4-4.8 3.4-2.1 0-3.9-.8-4.8-2.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Costos</button>
+    <button data-tab="precios"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12l9-9h8v8l-9 9-8-8zm13-5h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>Precios</button>
+  </div>
+</nav>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <div class="sheet-head"><div class="wrap"><button class="btn btn-ghost" data-act="close-sheet" aria-label="Volver">← Volver</button><h2 id="sheet-title"></h2></div></div>
+  <div class="wrap" id="sheet-body" style="padding-block:16px"></div>
+</div>
+<div id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+</body>
+</html>
+<script>
+(function(){
+"use strict";
+// ======== CONFIGURACIÓN: pegar acá los datos de tu proyecto de Supabase ========
+const SUPABASE_URL='https://zljeqcvwwfsnidlrflue.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsamVxY3Z3d2ZzbmlkbHJmbHVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMxMTIxOTcsImV4cCI6MjEwODY4ODE5N30.UmPqnmAcDuTZ3jn5EkRSPNTkhSAANjIcUn__kAKYenE';
+// ===============================================================================
+// ---------- listas (iguales al Excel) ----------
+const TIPOS=['VACUNA','ANTIPARASITARIO','AIE','OTRO TRATAMIENTO','RECORTE CASCO','RECORTE CRIN','DESPORRE COLA'];
+const TIPO_TXT={'VACUNA':'Vacuna','ANTIPARASITARIO':'Antiparasitario','AIE':'AIE (análisis)','OTRO TRATAMIENTO':'Otro tratamiento','RECORTE CASCO':'Recorte de casco','RECORTE CRIN':'Recorte de crin','DESPORRE COLA':'Desporre de cola'};
+const PRODUCTOS=['INFLUENZA EQUINA','ENCEFALOMIELITIS','TÉTANOS','INFLUENZA + ENCEFALO + TÉTANOS','RINONEUMONITIS','ADENITIS (GURMA)','RABIA','LEPTOSPIROSIS','IVERMECTINA','DORAMECTINA','MOXIDECTINA','FENBENDAZOL','PAMOATO DE PIRANTEL','IVERMECTINA + PRAZIQUANTEL','EXTRACCIÓN SANGRE AIE'];
+const VACUNAS=PRODUCTOS.slice(0,8), DROGAS=PRODUCTOS.slice(8,14);
+const DOSIS=['1° DOSIS','REFUERZO','ANUAL','ÚNICA'];
+const PELAJES=['ALAZÁN','ZAINO','TORDILLO','MORO','BAYO','OVERO','TOBIANO','PICAZO','ROSILLO','GATEADO','LOBUNO','DORADILLO','RUANO','BLANCO','NEGRO'];
+const SEXOS=['YEGUA','PADRILLO','CABALLO CASTRADO','POTRILLO','POTRANCA'];
+// reglas de alerta (las mismas del Excel)
+const REGLAS={vac1:{dias:40,aviso:10},vacAnual:{dias:365,aviso:15},'ANTIPARASITARIO':{aviso:15},'AIE':{dias:60,aviso:10},'RECORTE CASCO':{dias:45,aviso:10},'RECORTE CRIN':{aviso:7},'DESPORRE COLA':{aviso:7},'OTRO TRATAMIENTO':{aviso:7}};
+const DEFAULT_CABANA='CABAÑA EL ALBA';
+
+// ---------- estado ----------
+const S={db:null,user:null,myId:null,canWrite:true,caballos:{},registros:{},precios:{},loaded:{c:false,r:false,p:false},tab:'alertas',cabana:'__all',names:{},fail:false,
+  cargar:{sel:new Set(),tipo:'VACUNA'}, regFilter:{caballo:'',tipo:''}, costYear:new Date().getFullYear(), openHorse:null, editHorse:null, confirmDel:null};
+try{const t=localStorage.getItem('tab'); if(t) S.tab=t; const c=localStorage.getItem('cabana'); if(c) S.cabana=c;}catch(e){}
+
+// ---------- utilidades ----------
+const $=s=>document.querySelector(s);
+const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').trim().toUpperCase();
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parseD=s=>{if(!s)return null;const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(s);return m?new Date(+m[1],+m[2]-1,+m[3]):null};
+const today=()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())};
+const addDays=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const fmt=d=>{if(!d)return '';if(typeof d==='string')d=parseD(d);return d?pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear():''};
+const diff=(a,b)=>Math.round((a-b)/86400000);
+const money=n=>(n==null||n==='')?'':'$ '+Math.round(Number(n)).toLocaleString('es-AR');
+const num=v=>{if(v===''||v==null)return null;const n=Number(String(v).replace(/\./g,'').replace(',','.'));return isFinite(n)?n:null};
+function edad(nac){const d=parseD(nac);if(!d)return '';const t=today();let y=t.getFullYear()-d.getFullYear(),m=t.getMonth()-d.getMonth();if(t.getDate()<d.getDate())m--;if(m<0){y--;m+=12}return y>=1?(y+(y===1?' año':' años')+(y<3&&m?' '+m+(m===1?' mes':' meses'):'')):(m+(m===1?' mes':' meses'))}
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,2600)}
+function sortedHorses(){return Object.entries(S.caballos).map(([id,h])=>({id,...h})).filter(h=>S.cabana==='__all'||(h.cabana||DEFAULT_CABANA)===S.cabana).sort((a,b)=>String(a.nombre||'').localeCompare(String(b.nombre||''),'es'))}
+function horseName(id){const h=S.caballos[id];return h?(h.nombre||'(sin nombre)'):'(caballo borrado)'}
+
+// ---------- cálculo (misma lógica que el Excel) ----------
+function regla(r){if(r.tipo==='VACUNA')return r.dosis==='1° DOSIS'?REGLAS.vac1:REGLAS.vacAnual;return REGLAS[r.tipo]||null}
+function proxima(r){const f=parseD(r.fecha);if(!f)return null;
+  if(r.tipo==='ANTIPARASITARIO'){const d=addDays(f,30),y=d.getFullYear(),o=new Date(y,2,21),p=new Date(y,8,21);return d<o?o:(d<p?p:new Date(y+1,2,21))}
+  const g=regla(r);return g&&g.dias?addDays(f,g.dias):null}
+function precioPara(r){const key=norm(r.producto||r.tipo);const ps=Object.values(S.precios).filter(p=>norm(p.producto)===key&&p.precio!=null);if(!ps.length)return null;
+  const dated=ps.filter(p=>p.desde);const vig=dated.filter(p=>p.desde<=r.fecha).sort((a,b)=>b.desde.localeCompare(a.desde));
+  if(vig.length)return Number(vig[0].precio);if(dated.length)return Number(dated.sort((a,b)=>a.desde.localeCompare(b.desde))[0].precio);return Number(ps[0].precio)}
+function computeRegs(){
+  const hs=new Set(sortedHorses().map(h=>h.id));
+  const regs=Object.entries(S.registros).map(([id,r])=>({id,...r})).filter(r=>r.fecha&&hs.has(r.caballoId));
+  const kf=r=>r.caballoId+'|'+r.tipo+'|'+(r.tipo==='VACUNA'?norm(r.producto):'');
+  const max={};regs.forEach(r=>{const k=kf(r);if(!max[k]||r.fecha>max[k])max[k]=r.fecha});
+  const t=today();
+  regs.forEach(r=>{r.prox=proxima(r);const g=regla(r);r.aviso=g?g.aviso:7;
+    if(r.fecha<max[kf(r)])r.estado='CUMPLIDO';else if(!r.prox)r.estado='REGISTRADO';else{r.dias=diff(r.prox,t);r.estado=r.dias<0?'VENCIDO':(r.dias<=r.aviso?'PRÓXIMO':'AL DÍA')}
+    const m=num(r.costoManual);if(m!=null){r.costo=m;r.costoOrigen='distinto'}else{const p=precioPara(r);r.costo=p;r.costoOrigen=p==null?'falta':'lista'}
+    r.sinPrecio=r.costo==null&&(r.tipo==='VACUNA'||r.tipo==='ANTIPARASITARIO');});
+  regs.sort((a,b)=>b.fecha.localeCompare(a.fecha)||String(b.creado||'').localeCompare(String(a.creado||'')));
+  return regs}
+function resumen(id,regs){const mine=regs.filter(r=>r.caballoId===id);
+  const last=t=>mine.filter(r=>r.tipo===t)[0]||null;
+  const next=t=>{const p=mine.filter(r=>r.tipo===t&&r.prox&&r.estado!=='CUMPLIDO').sort((a,b)=>a.prox-b.prox);return p[0]||null};
+  const venc=mine.filter(r=>r.estado==='VENCIDO').length,prox=mine.filter(r=>r.estado==='PRÓXIMO').length;
+  return {mine,uVac:last('VACUNA'),pVac:next('VACUNA'),uAnti:last('ANTIPARASITARIO'),pAnti:next('ANTIPARASITARIO'),aie:next('AIE'),uOtro:last('OTRO TRATAMIENTO'),pCasco:next('RECORTE CASCO'),uCrin:last('RECORTE CRIN'),uCola:last('DESPORRE COLA'),
+    alerta:venc?'VENCIDO':(prox?'PRÓXIMO':'AL DÍA'),venc,prox}}
+const pill=e=>`<span class="pill ${e==='AL DÍA'?'AL':esc(e)}">${esc(e==='PRÓXIMO'?'VENCE PRONTO':e)}</span>`;
+function cuando(r){if(!r||!r.prox)return '';const d=r.dias;return d<0?`venció hace ${-d} día${d===-1?'':'s'}`:(d===0?'vence hoy':`faltan ${d} día${d===1?'':'s'}`)}
+function namesFor(){}
+const quien=id=>!id?'':(String(id).toLowerCase()===String(S.myId||'').toLowerCase()?'vos':String(id).split('@')[0]);
+
+// ---------- vistas ----------
+function loadingOrEmpty(){if(S.auth==='login')return `<div class="login card stack"><h2>Caballos El Refugio</h2><p class="muted">Entrá con tu cuenta de Google para ver y cargar la sanidad de los caballos.</p><button class="btn gbtn" data-act="login"><svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.2-.1-2.3-.4-3.5z"/></svg>Entrar con Google</button></div>`;
+  if(S.auth==='denied')return `<div class="login card stack"><h2>Sin acceso</h2><p>La cuenta <b>${esc(S.myId)}</b> no está autorizada para usar esta app.</p><p class="muted">Pedile al dueño que agregue tu mail a la lista de usuarios permitidos.</p><button class="btn btn-line" data-act="salir">Entrar con otra cuenta</button></div>`;
+  if(S.auth==='config')return `<div class="banner bad">Falta configurar la conexión con Supabase (URL y clave) en el archivo.</div>`;
+  if(S.fail)return `<div class="banner bad">No se pudo conectar con los datos. Revisá la señal y recargá la página.</div>`;
+  if(!(S.loaded.c&&S.loaded.r&&S.loaded.p))return `<div class="empty"><p>Cargando los caballos…</p></div>`;return ''}
+function vAlertas(){const regs=computeRegs();const hs=sortedHorses();
+  const pend=regs.filter(r=>r.estado==='VENCIDO'||r.estado==='PRÓXIMO').sort((a,b)=>a.prox-b.prox);
+  const v=pend.filter(r=>r.estado==='VENCIDO').length,p=pend.length-v;
+  let h=`<h2>¿Qué hay que hacer?</h2><div class="tiles"><div class="tile ${v?'bad':''}"><b>${v}</b>vencido${v===1?'':'s'}</div><div class="tile ${p?'warn':''}"><b>${p}</b>vence${p===1?'':'n'} pronto</div><div class="tile"><b>${hs.length}</b>caballo${hs.length===1?'':'s'}</div></div>`;
+  if(!hs.length)return h+`<div class="card empty"><p><b>Todavía no hay caballos cargados.</b></p><p>Empezá por agregar tus caballos.</p><button class="btn btn-main" data-act="new-horse">Agregar caballo</button></div>`;
+  if(!pend.length)h+=`<div class="card empty"><p><b>Todo al día.</b></p><p>No hay vacunas, antiparasitarios, AIE ni cascos vencidos o por vencer.</p></div>`;
+  else h+=`<div class="stack">`+pend.map(r=>`<div class="alert-item ${r.estado==='AL DÍA'?'AL':r.estado}" data-act="open-horse" data-id="${esc(r.caballoId)}" role="button" tabindex="0"><span class="bar"></span><div><strong>${esc(horseName(r.caballoId))}</strong><div>${esc(TIPO_TXT[r.tipo]||r.tipo)}${r.producto?' · '+esc(r.producto):''}</div><div class="muted">${r.tipo==='AIE'?'Vence':'Toca'} el ${fmt(r.prox)} · ${cuando(r)}</div></div>${pill(r.estado)}</div>`).join('')+`</div>`;
+  h+=`<p class="muted" style="margin-top:16px">Avisos: vacuna 1° dosis, refuerzo a los 30–40 días · refuerzo anual al año · antiparasitario al arrancar otoño (21/03) y primavera (21/09) · AIE vence a los 60 días · casco cada 45 días (avisa a los 35).</p>`;
+  return h}
+function vCaballos(){const regs=computeRegs();const hs=sortedHorses();
+  let h=`<div class="sec-title"><h2>Caballos</h2>${S.canWrite?'<button class="btn btn-main" data-act="new-horse">+ Agregar caballo</button>':''}</div>`;
+  if(!hs.length)return h+`<div class="card empty"><p>No hay caballos cargados en esta cabaña.</p></div>`;
+  return h+`<div class="stack">`+hs.map(x=>{const s=resumen(x.id,regs);return `<button class="card horse" data-act="open-horse" data-id="${esc(x.id)}"><span class="avatar">${esc((x.nombre||'?').slice(0,1))}</span><span style="min-width:0"><span class="name">${esc(x.nombre||'(sin nombre)')}</span><span class="meta" style="display:block">${esc([x.sexo,x.pelaje,edad(x.nacimiento)].filter(Boolean).join(' · '))}${x.prefijo?'<br>'+esc(x.prefijo):''}</span></span>${pill(s.alerta)}</button>`}).join('')+`</div>`}
+function selOpts(list,val,placeholder){return (placeholder!=null?`<option value="">${esc(placeholder)}</option>`:'')+list.map(o=>`<option ${norm(o)===norm(val)?'selected':''}>${esc(o)}</option>`).join('')}
+function vCargar(){const hs=sortedHorses();if(!S.canWrite)return `<h2>Cargar</h2><div class="banner">Tenés acceso solo para ver. Para cargar datos, el dueño te tiene que invitar como Editor.</div>`;
+  if(!hs.length)return `<h2>Cargar</h2><div class="card empty"><p>Primero agregá al menos un caballo.</p><button class="btn btn-main" data-act="new-horse">Agregar caballo</button></div>`;
+  const c=S.cargar;const tipo=c.tipo;const prodList=tipo==='VACUNA'?VACUNAS:(tipo==='ANTIPARASITARIO'?DROGAS:(tipo==='AIE'?['EXTRACCIÓN SANGRE AIE']:[]));
+  return `<h2>Cargar lo que se hizo</h2><form id="f-cargar" class="stack" autocomplete="off">
+  <div class="card stack"><div class="lbl">1 · ¿Qué se hizo?</div><div class="chips" role="group" aria-label="Tipo">${TIPOS.map(t=>`<button type="button" class="chip" data-act="tipo" data-v="${esc(t)}" aria-pressed="${t===tipo}">${esc(TIPO_TXT[t])}</button>`).join('')}</div>
+   <div class="grid2"><label class="f">Fecha<input type="date" id="c-fecha" value="${esc(c.fecha||iso(today()))}" required></label>
+   ${prodList.length||tipo==='OTRO TRATAMIENTO'?`<label class="f">${tipo==='VACUNA'?'Vacuna':(tipo==='ANTIPARASITARIO'?'Droga':'Producto')}<input id="c-prod" list="dl-prod" value="${esc(c.producto||'')}" placeholder="Elegí o escribí"><datalist id="dl-prod">${prodList.map(p=>`<option value="${esc(p)}">`).join('')}</datalist></label>`:''}
+   ${tipo==='VACUNA'?`<label class="f">Dosis<select id="c-dosis">${selOpts(DOSIS,c.dosis||'ANUAL')}</select></label>`:''}</div></div>
+  <div class="card stack"><div class="sec-title"><div class="lbl">2 · ¿A qué caballos?</div><button type="button" class="btn btn-line btn-sm" data-act="sel-all">${hs.every(x=>c.sel.has(x.id))?'Quitar todos':'Elegir todos'}</button></div>
+   <div class="chips">${hs.map(x=>`<button type="button" class="chip" data-act="sel-horse" data-id="${esc(x.id)}" aria-pressed="${c.sel.has(x.id)}">${esc(x.nombre||'(sin nombre)')}</button>`).join('')}</div></div>
+  <details class="card"><summary>Más datos (opcional): observaciones, costo distinto</summary><div class="stack" style="margin-top:10px">
+   <label class="f">Observaciones / quién aplicó<input id="c-obs" value="${esc(c.obs||'')}" placeholder="Ej: Veterinario Andrada"></label>
+   <label class="f">Costo distinto por caballo ($)<input id="c-costo" inputmode="decimal" value="${esc(c.costo||'')}" placeholder="Dejalo vacío para usar el precio de la lista"></label></div></details>
+  <button class="btn btn-main btn-block" type="submit" style="min-height:56px;font-size:1.1rem">Guardar${c.sel.size?` para ${c.sel.size} caballo${c.sel.size===1?'':'s'}`:''}</button></form>`}
+function vRegistro(){const regs0=computeRegs();const f=S.regFilter;const regs=regs0.filter(r=>(!f.caballo||r.caballoId===f.caballo)&&(!f.tipo||r.tipo===f.tipo));namesFor(regs.map(r=>r.por));
+  const hs=sortedHorses();
+  let h=`<h2>Registro de sanidad</h2><div class="grid2" style="margin-bottom:12px"><label class="f">Caballo<select id="rf-caballo"><option value="">Todos</option>${hs.map(x=>`<option value="${esc(x.id)}" ${f.caballo===x.id?'selected':''}>${esc(x.nombre)}</option>`).join('')}</select></label><label class="f">Tipo<select id="rf-tipo"><option value="">Todos</option>${TIPOS.map(t=>`<option value="${esc(t)}" ${f.tipo===t?'selected':''}>${esc(TIPO_TXT[t])}</option>`).join('')}</select></label></div>`;
+  if(!regs.length)return h+`<div class="card empty"><p>No hay registros${f.caballo||f.tipo?' con este filtro':''}. Usá <b>Cargar</b> para agregar el primero.</p></div>`;
+  return h+`<div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Caballo</th><th>Qué</th><th>Producto</th><th>Dosis</th><th>Próxima / vence</th><th>Estado</th><th class="n">Costo</th><th>Obs.</th><th>Cargó</th>${S.canWrite?'<th></th>':''}</tr></thead><tbody>`+
+  regs.map(r=>`<tr><td>${fmt(r.fecha)}</td><td>${esc(horseName(r.caballoId))}</td><td>${esc(TIPO_TXT[r.tipo]||r.tipo)}</td><td>${esc(r.producto||'')}</td><td>${esc(r.dosis||'')}</td><td>${fmt(r.prox)}</td><td>${pill(r.estado)}</td><td class="n">${r.sinPrecio?'<span class="pill PRÓXIMO">SIN PRECIO</span>':money(r.costo)}</td><td>${esc(r.obs||'')}</td><td>${esc(quien(r.por))}</td>${S.canWrite?`<td>${S.confirmDel===r.id?`<button class="btn btn-danger btn-sm" data-act="del-reg" data-id="${esc(r.id)}">¿Borrar? Sí</button>`:`<button class="btn btn-line btn-sm" data-act="ask-del" data-id="${esc(r.id)}" aria-label="Borrar registro">Borrar</button>`}</td>`:''}</tr>`).join('')+`</tbody></table></div>`}
+const COST_COLS=[['VACUNA','Vacunas'],['ANTIPARASITARIO','Antiparasitarios'],['AIE','AIE'],['OTRO TRATAMIENTO','Otros trat.'],['MANT','Casco/crin/cola']];
+const colOf=t=>['RECORTE CASCO','RECORTE CRIN','DESPORRE COLA'].includes(t)?'MANT':t;
+function costTable(regs,year){const hs=sortedHorses();const rows=hs.map(x=>{const o={id:x.id,nombre:x.nombre,tot:0,hist:0};COST_COLS.forEach(([k])=>o[k]=0);
+  regs.filter(r=>r.caballoId===x.id&&r.costo!=null).forEach(r=>{o.hist+=r.costo;if(parseD(r.fecha).getFullYear()===year){o[colOf(r.tipo)]+=r.costo;o.tot+=r.costo}});return o});
+  const T={tot:0,hist:0};COST_COLS.forEach(([k])=>T[k]=rows.reduce((a,o)=>a+o[k],0));T.tot=rows.reduce((a,o)=>a+o.tot,0);T.hist=rows.reduce((a,o)=>a+o.hist,0);return {rows,T,hs}}
+function vCostos(){const regs=computeRegs();const years=[...new Set(regs.map(r=>parseD(r.fecha).getFullYear()).concat([new Date().getFullYear()]))].sort((a,b)=>b-a);
+  const y=S.costYear;const {rows,T,hs}=costTable(regs,y);const sin=regs.filter(r=>r.sinPrecio&&parseD(r.fecha).getFullYear()===y).length;
+  let h=`<div class="sec-title"><h2>Costos</h2><label class="f" style="flex-direction:row;align-items:center;gap:8px">Año<select id="cost-year" style="width:auto">${years.map(v=>`<option ${v===y?'selected':''}>${v}</option>`).join('')}</select></label></div>
+  <div class="tiles"><div class="tile"><span class="lbl">Total ${y}</span><b>${money(T.tot)}</b></div><div class="tile"><span class="lbl">Por caballo</span><b>${hs.length?money(T.tot/hs.length):'$ 0'}</b></div><div class="tile"><span class="lbl">Por mes</span><b>${money(T.tot/12)}</b></div></div>`;
+  if(sin)h+=`<div class="banner" style="margin-bottom:12px"><b>${sin} aplicación${sin===1?'':'es'} sin precio.</b> Cargá el precio en <b>Precios</b> y se suman solas.</div>`;
+  h+=`<div class="tablewrap"><table><thead><tr><th>Caballo</th>${COST_COLS.map(([,l])=>`<th class="n">${l}</th>`).join('')}<th class="n">Total ${y}</th><th class="n">Histórico</th></tr></thead><tbody>`+
+   rows.map(o=>`<tr><td>${esc(o.nombre)}</td>${COST_COLS.map(([k])=>`<td class="n">${money(o[k])}</td>`).join('')}<td class="n"><b>${money(o.tot)}</b></td><td class="n">${money(o.hist)}</td></tr>`).join('')+
+   `<tr class="total"><td>TOTAL</td>${COST_COLS.map(([k])=>`<td class="n">${money(T[k])}</td>`).join('')}<td class="n">${money(T.tot)}</td><td class="n">${money(T.hist)}</td></tr></tbody></table></div>`;
+  return h}
+function vPrecios(){const ps=Object.entries(S.precios).map(([id,p])=>({id,...p})).sort((a,b)=>norm(a.producto).localeCompare(norm(b.producto))||String(b.desde||'').localeCompare(String(a.desde||'')));
+  let h=`<h2>Precios por caballo</h2><p class="muted" style="margin-top:-6px">Cargá el precio de cada vacuna o antiparasitario una vez y se aplica solo. Si cambia, agregá una línea nueva con la fecha desde la que rige: lo anterior no cambia.</p>`;
+  if(S.canWrite)h+=`<form id="f-precio" class="card stack" autocomplete="off"><div class="grid2"><label class="f">Producto o tarea<input id="p-prod" list="dl-allprod" required placeholder="Ej: FENBENDAZOL"><datalist id="dl-allprod">${PRODUCTOS.concat(['RECORTE CASCO','RECORTE CRIN','DESPORRE COLA']).map(p=>`<option value="${esc(p)}">`).join('')}</datalist></label>
+   <label class="f">Rige desde<input type="date" id="p-desde" value="${iso(today())}"></label><label class="f">Precio por caballo ($)<input id="p-precio" inputmode="decimal" required placeholder="Ej: 10000"></label><label class="f">Nota (opcional)<input id="p-nota" placeholder="Ej: frasco $40.000 / 4 dosis"></label></div><button class="btn btn-main" type="submit">Agregar precio</button></form>`;
+  if(!ps.length)return h+`<div class="card empty" style="margin-top:12px"><p>Todavía no hay precios cargados.</p></div>`;
+  return h+`<div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>Producto / tarea</th><th>Rige desde</th><th class="n">Precio por caballo</th><th>Nota</th>${S.canWrite?'<th></th>':''}</tr></thead><tbody>`+
+   ps.map(p=>`<tr><td>${esc(p.producto)}</td><td>${fmt(p.desde)}</td><td class="n">${money(p.precio)}</td><td>${esc(p.nota||'')}</td>${S.canWrite?`<td>${S.confirmDel===p.id?`<button class="btn btn-danger btn-sm" data-act="del-precio" data-id="${esc(p.id)}">¿Borrar? Sí</button>`:`<button class="btn btn-line btn-sm" data-act="ask-del" data-id="${esc(p.id)}">Borrar</button>`}</td>`:''}</tr>`).join('')+`</tbody></table></div>`}
+
+// ---------- ficha de caballo ----------
+const kv=(l,v)=>`<div><span>${esc(l)}</span><b>${v||'—'}</b></div>`;
+function fichaHTML(id){const x=S.caballos[id];if(!x)return '<p>Este caballo ya no existe.</p>';const regs=computeRegs();const s=resumen(id,regs);namesFor(s.mine.map(r=>r.por));
+  const nr=r=>r?`${fmt(r.prox)} <span class="muted">(${cuando(r)})</span>`:'';const pct=num(x.servicios)?Math.round((num(x.pariciones)||0)/num(x.servicios)*100)+'%':'';
+  const parto=(x.ultimoServicio&&x.diagnostico==='PREÑADA')?addDays(parseD(x.ultimoServicio),340):null;
+  const y=new Date().getFullYear();const tot=s.mine.filter(r=>r.costo!=null&&parseD(r.fecha).getFullYear()===y).reduce((a,r)=>a+r.costo,0);const hist=s.mine.filter(r=>r.costo!=null).reduce((a,r)=>a+r.costo,0);
+  return `<div class="stack">
+  <div class="row">${pill(s.alerta)}${S.canWrite?`<button class="btn btn-main" data-act="cargar-para" data-id="${esc(id)}">+ Cargar para ${esc(x.nombre)}</button><button class="btn btn-line" data-act="edit-horse" data-id="${esc(id)}">Editar datos</button>`:''}</div>
+  <section class="card"><h3>Sanidad</h3><div class="kv">${kv('Última vacuna',s.uVac?fmt(s.uVac.fecha)+' · '+esc(s.uVac.producto||''):'')}${kv('Próxima vacuna',nr(s.pVac))}${kv('Último antiparasitario',s.uAnti?fmt(s.uAnti.fecha)+' · '+esc(s.uAnti.producto||''):'')}${kv('Próximo antiparasitario',nr(s.pAnti))}${kv('AIE vence',nr(s.aie))}${kv('Próximo recorte de casco',nr(s.pCasco))}${kv('Último recorte de crin',s.uCrin?fmt(s.uCrin.fecha):'')}${kv('Último desporre de cola',s.uCola?fmt(s.uCola.fecha):'')}${kv('Último otro tratamiento',s.uOtro?fmt(s.uOtro.fecha)+' · '+esc(s.uOtro.producto||''):'')}</div></section>
+  <section class="card"><h3>Datos</h3><div class="kv">${kv('Sexo',esc(x.sexo))}${kv('Prefijo',esc(x.prefijo))}${kv('RP',esc(x.rp))}${kv('Nacimiento',fmt(x.nacimiento))}${kv('Edad',edad(x.nacimiento))}${kv('Alto',esc(x.alto))}${kv('Pelaje',esc(x.pelaje))}${kv('Cabaña',esc(x.cabana||DEFAULT_CABANA))}${kv('Estado',esc(x.estado))}</div></section>
+  <section class="card"><h3>Reproducción</h3><div class="kv">${kv('Servicio',esc(x.servicio))}${kv('A campo / corral',esc(x.campoCorral))}${kv('Último servicio',fmt(x.ultimoServicio))}${kv('Padrillo / semen',esc(x.padrillo))}${kv('Diagnóstico',esc(x.diagnostico)+(x.fechaDiagnostico?' · '+fmt(x.fechaDiagnostico):''))}${kv('Parto probable',parto?fmt(parto):'')}${kv('Servicios (total)',esc(x.servicios))}${kv('Pariciones (total)',esc(x.pariciones))}${kv('% pariciones / servicios',pct)}${kv('Último parto',fmt(x.ultimoParto))}</div></section>
+  <section class="card"><h3>Pedigrí</h3><div class="kv">${kv('Padre',esc(x.padre)+(x.rpPadre?' · RP '+esc(x.rpPadre):''))}${kv('Madre',esc(x.madre)+(x.rpMadre?' · RP '+esc(x.rpMadre):''))}${kv('Abuelo paterno',esc(x.abueloP))}${kv('Abuela paterna',esc(x.abuelaP))}${kv('Abuelo materno',esc(x.abueloM))}${kv('Abuela materna',esc(x.abuelaM))}</div></section>
+  <section class="card"><h3>Costos</h3><div class="kv">${kv('Gastado en '+y,money(tot)||'$ 0')}${kv('Histórico',money(hist)||'$ 0')}</div></section>
+  <section class="card"><h3>Historial</h3>${s.mine.length?`<div class="hist">${s.mine.map(r=>`<div class="h"><div><b>${fmt(r.fecha)}</b> · ${esc(TIPO_TXT[r.tipo]||r.tipo)}${r.producto?' · '+esc(r.producto):''}${r.dosis?' · '+esc(r.dosis):''}<div class="muted">${[r.obs,r.costo!=null?money(r.costo):'',r.por?'cargó '+quien(r.por):''].filter(Boolean).map(esc).join(' · ')}</div></div>${pill(r.estado)}</div>`).join('')}</div>`:'<p class="muted">Sin registros todavía.</p>'}</section>
+  ${x.notas?`<section class="card"><h3>Notas</h3><p>${esc(x.notas)}</p></section>`:''}
+  </div>`}
+const F=[ // campos de la ficha
+ ['Datos',[['nombre','Nombre',1],['prefijo','Prefijo'],['rp','RP'],['sexo','Sexo','sel',SEXOS],['nacimiento','Fecha de nacimiento','date'],['alto','Medida alto (m)'],['pelaje','Pelaje','list',PELAJES],['cabana','Cabaña'],['estado','Estado (ej: en servicio, vendida)']]],
+ ['Reproducción',[['servicio','Servicio','sel',['NATURAL','INSEMINACIÓN']],['campoCorral','Servicio natural','sel',['A CAMPO','CORRAL']],['ultimoServicio','Fecha último servicio','date'],['padrillo','Padrillo / semen usado'],['diagnostico','Diagnóstico','sel',['PREÑADA','VACÍA','SIN DIAGNÓSTICO']],['fechaDiagnostico','Fecha del diagnóstico','date'],['servicios','Cantidad de servicios (total)','num'],['pariciones','Cantidad de pariciones (total)','num'],['ultimoParto','Fecha último parto','date']]],
+ ['Pedigrí',[['padre','Padre'],['rpPadre','RP padre'],['madre','Madre'],['rpMadre','RP madre'],['abueloP','Abuelo paterno'],['abuelaP','Abuela paterna'],['abueloM','Abuelo materno'],['abuelaM','Abuela materna']]],
+ ['Notas',[['notas','Notas','area']]]];
+function editHTML(id){const x=id?S.caballos[id]||{}:{cabana:S.cabana!=='__all'?S.cabana:DEFAULT_CABANA,sexo:'YEGUA'};
+  const field=([k,l,t,opts])=>{const v=x[k]==null?'':x[k];const idf='h-'+k;
+    if(t==='sel')return `<label class="f">${esc(l)}<select id="${idf}">${selOpts(opts,v,'—')}</select></label>`;
+    if(t==='list')return `<label class="f">${esc(l)}<input id="${idf}" list="dl-${k}" value="${esc(v)}"><datalist id="dl-${k}">${opts.map(o=>`<option value="${esc(o)}">`).join('')}</datalist></label>`;
+    if(t==='area')return `<label class="f" style="grid-column:1/-1">${esc(l)}<textarea id="${idf}">${esc(v)}</textarea></label>`;
+    return `<label class="f">${esc(l)}${t===1?' <span class="req">*</span>':''}<input id="${idf}" ${t==='date'?'type="date"':''} ${t==='num'?'inputmode="numeric"':''} ${t===1?'required':''} value="${esc(v)}"></label>`};
+  return `<form id="f-horse" class="stack" data-id="${esc(id||'')}" autocomplete="off">${F.map(([g,fs],i)=>`<section class="card"><h3>${g}</h3><div class="grid2">${fs.map(field).join('')}</div></section>`).join('')}
+  <button class="btn btn-main btn-block" type="submit" style="min-height:56px">Guardar caballo</button>
+  ${id?(S.confirmDel==='h:'+id?`<button type="button" class="btn btn-danger btn-block" data-act="del-horse" data-id="${esc(id)}">Sí, borrar ${esc(x.nombre||'')} y su historial</button>`:`<button type="button" class="btn btn-line btn-block" data-act="ask-del" data-id="h:${esc(id)}">Borrar caballo</button>`):''}</form>`}
+function openSheet(){$('#sheet').hidden=false;document.body.style.overflow='hidden'}
+function closeSheet(){$('#sheet').hidden=true;document.body.style.overflow='';S.openHorse=null;S.editHorse=null;S.confirmDel=null}
+function renderSheet(){if($('#sheet').hidden)return;if(S.editHorse!==null){$('#sheet-title').textContent=S.editHorse?'Editar '+(S.caballos[S.editHorse]?.nombre||''):'Nuevo caballo';$('#sheet-body').innerHTML=editHTML(S.editHorse)}
+  else if(S.openHorse){$('#sheet-title').textContent=S.caballos[S.openHorse]?.nombre||'Caballo';$('#sheet-body').innerHTML=fichaHTML(S.openHorse)}}
+
+// ---------- render ----------
+function renderCabanas(){const set=new Set(Object.values(S.caballos).map(h=>h.cabana||DEFAULT_CABANA));if(!set.size)set.add(DEFAULT_CABANA);const sel=$('#cabana-sel');
+  if(S.cabana!=='__all'&&!set.has(S.cabana))S.cabana='__all';
+  sel.innerHTML=(set.size>1?`<option value="__all">Todas las cabañas</option>`:'')+[...set].sort().map(c=>`<option value="${esc(c)}" ${c===S.cabana?'selected':''}>${esc(c)}</option>`).join('');
+  sel.hidden=set.size<2; if(set.size<2)S.cabana='__all';
+  const name=S.cabana!=='__all'?S.cabana:(set.size===1?[...set][0]:'Mis cabañas');$('#brand-name').textContent=name.replace(/^CABAÑA /i,'Cabaña ').replace(/\B\w+/g,w=>w.toLowerCase())}
+function render(){renderCabanas();const nv=document.querySelector('nav.bottom');if(nv)nv.hidden=S.auth!=='ok';document.querySelectorAll('nav.bottom button').forEach(b=>{if(b.dataset.tab===S.tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  const lo=loadingOrEmpty();const v=$('#view');const keep=document.activeElement&&document.activeElement.id;
+  if(lo){v.innerHTML=lo}else{
+    // no redibujar el formulario de carga mientras se escribe
+    v.innerHTML=({alertas:vAlertas,caballos:vCaballos,cargar:vCargar,registro:vRegistro,costos:vCostos,precios:vPrecios}[S.tab]||vAlertas)()}
+  renderSheet();if(keep){const el=document.getElementById(keep);if(el&&el!==document.activeElement&&el.tagName!=='BUTTON')try{el.focus()}catch(e){}}}
+function saveCargarDraft(){const c=S.cargar;const g=i=>{const e=document.getElementById(i);return e?e.value:undefined};
+  const f=g('c-fecha');if(f!==undefined)c.fecha=f;const p=g('c-prod');if(p!==undefined)c.producto=p;const d=g('c-dosis');if(d!==undefined)c.dosis=d;const o=g('c-obs');if(o!==undefined)c.obs=o;const k=g('c-costo');if(k!==undefined)c.costo=k}
+
+// ---------- eventos ----------
+document.addEventListener('click',async e=>{const tb=e.target.closest('nav.bottom button');if(tb){if(S.tab==='cargar')saveCargarDraft();S.tab=tb.dataset.tab;S.confirmDel=null;try{localStorage.setItem('tab',S.tab)}catch(x){}render();window.scrollTo(0,0);return}
+  const a=e.target.closest('[data-act]');if(!a)return;const act=a.dataset.act,id=a.dataset.id;
+  if(act==='open-horse'){S.openHorse=id;S.editHorse=null;S.confirmDel=null;openSheet();renderSheet();$('#sheet').scrollTop=0}
+  else if(act==='close-sheet'){if(S.editHorse!==null&&S.openHorse){S.editHorse=null;S.confirmDel=null;renderSheet()}else closeSheet()}
+  else if(act==='new-horse'){S.editHorse='';S.openHorse=null;S.confirmDel=null;openSheet();renderSheet();$('#sheet').scrollTop=0}
+  else if(act==='edit-horse'){S.editHorse=id;S.confirmDel=null;renderSheet();$('#sheet').scrollTop=0}
+  else if(act==='cargar-para'){closeSheet();S.cargar.sel=new Set([id]);S.tab='cargar';render();window.scrollTo(0,0)}
+  else if(act==='tipo'){saveCargarDraft();if(S.cargar.tipo!==a.dataset.v){S.cargar.tipo=a.dataset.v;S.cargar.producto='';}render()}
+  else if(act==='sel-horse'){saveCargarDraft();S.cargar.sel.has(id)?S.cargar.sel.delete(id):S.cargar.sel.add(id);render()}
+  else if(act==='sel-all'){saveCargarDraft();const hs=sortedHorses();if(hs.every(x=>S.cargar.sel.has(x.id)))S.cargar.sel.clear();else hs.forEach(x=>S.cargar.sel.add(x.id));render()}
+  else if(act==='ask-del'){S.confirmDel=id;render()}
+  else if(act==='del-reg'){await safe(()=>q(sb.from('registros').delete().eq('id',id)),'Registro borrado');S.confirmDel=null}
+  else if(act==='del-precio'){await safe(()=>q(sb.from('precios').delete().eq('id',id)),'Precio borrado');S.confirmDel=null}
+  else if(act==='del-horse'){const regs=Object.entries(S.registros).filter(([,r])=>r.caballoId===id);
+    const ok=await safe(()=>q(sb.from('caballos').delete().eq('id',id)),'Caballo borrado');if(ok)closeSheet();render()}
+  else if(act==='excel'){exportExcel()}
+  else if(act==='login'){const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});if(error)toast('No se pudo abrir el ingreso con Google')}
+  else if(act==='salir'){await sb.auth.signOut();location.reload()}
+});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.alert-item[role="button"]')){e.preventDefault();e.target.click()}if(e.key==='Escape'&&!$('#sheet').hidden)closeSheet()});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.id==='cabana-sel'){S.cabana=t.value;try{localStorage.setItem('cabana',S.cabana)}catch(x){}S.cargar.sel.clear();render()}
+  else if(t.id==='rf-caballo'){S.regFilter.caballo=t.value;render()}else if(t.id==='rf-tipo'){S.regFilter.tipo=t.value;render()}
+  else if(t.id==='cost-year'){S.costYear=+t.value;render()}});
+async function q(p){const r=await p;if(r.error)throw r.error;return r.data}
+async function safe(fn,okMsg){if(!sb){toast('Sin conexión con los datos');return false}
+  try{const out=await fn();if(okMsg)toast(okMsg);loadAll();return out==null?true:out}catch(err){console.error(err);
+    if(err&&(err.code==='42501'||/row-level security/i.test(err.message||'')))toast('Tu cuenta no tiene permiso para cargar.');
+    else if(/fetch|network/i.test((err&&err.message)||''))toast('Sin señal o el servidor no respondió. Probá de nuevo.');
+    else toast('No se pudo guardar. Probá de nuevo.');return false}}
+document.addEventListener('submit',async e=>{e.preventDefault();const f=e.target;
+  if(f.id==='f-cargar'){saveCargarDraft();const c=S.cargar;if(!c.sel.size){toast('Elegí al menos un caballo');return}if(!c.fecha){toast('Poné la fecha');return}
+    const base={fecha:c.fecha,tipo:c.tipo,producto:norm(c.producto)||'',dosis:c.tipo==='VACUNA'?(c.dosis||'ANUAL'):'',obs:(c.obs||'').trim(),costoManual:num(c.costo),por:S.myId||null};
+    const ids=[...c.sel];const btn=f.querySelector('[type=submit]');btn.disabled=true;
+    const ok=await safe(()=>q(sb.from('registros').insert(ids.map(hid=>toDb({...base,caballoId:hid})))),`Guardado para ${ids.length} caballo${ids.length===1?'':'s'}`);
+    btn.disabled=false;if(ok){S.cargar={sel:new Set(),tipo:c.tipo,fecha:c.fecha,producto:'',dosis:c.dosis,obs:c.obs,costo:''};S.tab='registro';render();window.scrollTo(0,0)}}
+  else if(f.id==='f-precio'){const prod=norm($('#p-prod').value),pr=num($('#p-precio').value);if(!prod||pr==null){toast('Completá producto y precio');return}
+    const ok=await safe(()=>q(sb.from('precios').insert(toDb({producto:prod,desde:$('#p-desde').value||'',precio:pr,nota:$('#p-nota').value.trim()}))),'Precio agregado');if(ok)render()}
+  else if(f.id==='f-horse'){const id=f.dataset.id;const o={};F.forEach(([,fs])=>fs.forEach(([k,,t])=>{const el=document.getElementById('h-'+k);let v=el?el.value.trim():'';if(t==='num')v=v===''?'':(num(v)??v);if(['nombre','prefijo','pelaje','padre','madre','abueloP','abuelaP','abueloM','abuelaM','padrillo','cabana'].includes(k))v=norm(v);o[k]=v}));
+    if(!o.nombre){toast('Poné el nombre');return}if(!o.cabana)o.cabana=DEFAULT_CABANA;
+    const dupe=Object.entries(S.caballos).some(([k,h])=>k!==id&&norm(h.nombre)===o.nombre&&(h.cabana||DEFAULT_CABANA)===o.cabana);if(dupe){toast('Ya hay un caballo con ese nombre en esta cabaña');return}
+    const ok=await safe(async()=>{const row=toDb(o);const d=id?await q(sb.from('caballos').update(row).eq('id',id).select('id')):await q(sb.from('caballos').insert(row).select('id'));return d&&d[0]?d[0].id:id},'Caballo guardado');if(ok){S.editHorse=null;S.openHorse=typeof ok==='string'?ok:id;S.confirmDel=null;renderSheet();$('#sheet').scrollTop=0}}
+});
+
+// ---------- Excel ----------
+async function exportExcel(){if(typeof XLSX==='undefined'){toast('No se pudo preparar el Excel');return}
+  const regs=computeRegs();const hs=sortedHorses();const D=s=>{const d=typeof s==='string'?parseD(s):s;if(!d)return '';return {t:'n',v:(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(1899,11,30))/86400000,z:'dd/mm/yyyy'}};const M=v=>(v==null||v==='')?'':{t:'n',v:Number(v),z:'"$" #,##0'};
+  const wb=XLSX.utils.book_new();
+  const sh1=[['SEXO','PREFIJO','NOMBRE','RP','FECHA DE NACIMIENTO','EDAD','MEDIDAS ALTO','PELAJE','CABAÑA','ESTADO','SERVICIO','A CAMPO/CORRAL','FECHA ÚLTIMO SERVICIO','PADRILLO / SEMEN','DIAGNÓSTICO','FECHA DIAGNÓSTICO','PARTO PROBABLE','SERVICIOS (TOTAL)','PARICIONES (TOTAL)','% PARICIONES/SERVICIOS','ÚLTIMO PARTO','ÚLTIMA VACUNA','PRÓXIMA VACUNA','ÚLTIMO ANTIPARASITARIO','DROGA','PRÓXIMO ANTIPARASITARIO','AIE VENCE','PRÓXIMO RECORTE CASCO','ÚLTIMO RECORTE CRIN','ÚLTIMO DESPORRE COLA','ALERTA']];
+  hs.forEach(x=>{const s=resumen(x.id,regs);const sv=num(x.servicios);sh1.push([x.sexo||'',x.prefijo||'',x.nombre||'',x.rp||'',D(x.nacimiento),edad(x.nacimiento),x.alto||'',x.pelaje||'',x.cabana||DEFAULT_CABANA,x.estado||'',x.servicio||'',x.campoCorral||'',D(x.ultimoServicio),x.padrillo||'',x.diagnostico||'',D(x.fechaDiagnostico),(x.ultimoServicio&&x.diagnostico==='PREÑADA')?D(addDays(parseD(x.ultimoServicio),340)):'',sv==null?'':sv,num(x.pariciones)??'',sv?{t:'n',v:(num(x.pariciones)||0)/sv,z:'0%'}:'',D(x.ultimoParto),s.uVac?D(s.uVac.fecha):'',s.pVac?D(s.pVac.prox):'',s.uAnti?D(s.uAnti.fecha):'',s.uAnti?s.uAnti.producto:'',s.pAnti?D(s.pAnti.prox):'',s.aie?D(s.aie.prox):'',s.pCasco?D(s.pCasco.prox):'',s.uCrin?D(s.uCrin.fecha):'',s.uCola?D(s.uCola.fecha):'',s.alerta])});
+  const sh2=[['NOMBRE','RP','PADRE','RP PADRE','MADRE','RP MADRE','ABUELO PATERNO','ABUELA PATERNA','ABUELO MATERNO','ABUELA MATERNA']];hs.forEach(x=>sh2.push([x.nombre||'',x.rp||'',x.padre||'',x.rpPadre||'',x.madre||'',x.rpMadre||'',x.abueloP||'',x.abuelaP||'',x.abueloM||'',x.abuelaM||'']));
+  const sh3=[['FECHA','CABALLO','TIPO','PRODUCTO / VACUNA / DROGA','DOSIS','OBSERVACIONES','PRÓXIMA FECHA / VENCE','ESTADO','COSTO ($)','ORIGEN DEL COSTO']];
+  regs.slice().reverse().forEach(r=>sh3.push([D(r.fecha),horseName(r.caballoId),r.tipo,r.producto||'',r.dosis||'',r.obs||'',D(r.prox),r.estado,r.costo==null?(r.sinPrecio?'SIN PRECIO':''):M(r.costo),r.costoOrigen==='distinto'?'Costo distinto':(r.costoOrigen==='lista'?'Lista de precios':'')]));
+  const years=[...new Set(regs.map(r=>parseD(r.fecha).getFullYear()))].sort();const sh4=[['AÑO','CABALLO',...COST_COLS.map(c=>c[1].toUpperCase()),'TOTAL']];
+  years.forEach(y=>{const {rows,T}=costTable(regs,y);rows.forEach(o=>sh4.push([y,o.nombre,...COST_COLS.map(([k])=>M(o[k])),M(o.tot)]));sh4.push([y,'TOTAL',...COST_COLS.map(([k])=>M(T[k])),M(T.tot)]);sh4.push([])});
+  const sh5=[['PRODUCTO / TAREA','RIGE DESDE','PRECIO POR CABALLO ($)','NOTA']];Object.values(S.precios).forEach(p=>sh5.push([p.producto,D(p.desde),M(p.precio),p.nota||'']));
+  const add=(rows,name,widths)=>{const ws=XLSX.utils.aoa_to_sheet(rows);ws['!cols']=rows[0].map((h,i)=>({wch:widths&&widths[i]||Math.max(12,String(h).length+2)}));
+    if(rows.length>1)ws['!autofilter']={ref:XLSX.utils.encode_range({s:{r:0,c:0},e:{r:rows.length-1,c:rows[0].length-1}})};XLSX.utils.book_append_sheet(wb,ws,name)};
+  add(sh1,'CABALLOS');add(sh2,'PEDIGRÍ');add(sh3,'REGISTRO SANIDAD',[12,16,18,28,10,28,16,12,12,16]);add(sh4,'COSTOS');add(sh5,'PRECIOS',[30,14,18,30]);
+  try{XLSX.writeFile(wb,'Caballos_El_Refugio_'+iso(today())+'.xlsx');toast('Excel descargado')}catch(err){toast('No se pudo descargar el Excel')}}
+
+// ---------- conexión (Supabase) ----------
+const snake=k=>k.replace(/[A-Z]/g,m=>'_'+m.toLowerCase());
+const camel=k=>k.replace(/_([a-z])/g,(m,c)=>c.toUpperCase());
+const DATES=new Set(['nacimiento','ultimo_servicio','fecha_diagnostico','ultimo_parto','fecha','desde']);
+const NUMS=new Set(['servicios','pariciones','costo_manual','precio']);
+function toDb(o){const r={};for(const [k,v] of Object.entries(o)){if(k==='id')continue;const sk=snake(k);let val=v;if((DATES.has(sk)||NUMS.has(sk))&&(val===''||val===undefined))val=null;r[sk]=val}return r}
+function fromDb(row){const o={};for(const [k,v] of Object.entries(row)){if(k==='id'||k==='creado')continue;o[camel(k)]=v==null?'':v}if(row.creado)o.creado=row.creado;return o}
+let sb=null,loadTimer=null;
+async function loadAll(){try{const [c,r,p]=await Promise.all([q(sb.from('caballos').select('*')),q(sb.from('registros').select('*')),q(sb.from('precios').select('*'))]);
+  const m=a=>Object.fromEntries(a.map(x=>[x.id,fromDb(x)]));S.caballos=m(c);S.registros=m(r);S.precios=m(p);S.loaded={c:true,r:true,p:true};S.fail=false;
+  const typing=S.tab==='cargar'&&document.activeElement&&/^c-/.test(document.activeElement.id);if(typing)saveCargarDraft();render()}catch(e){console.error(e);S.fail=true;render()}}
+const loadSoon=()=>{clearTimeout(loadTimer);loadTimer=setTimeout(loadAll,400)};
+render();
+(async function boot(){
+  if(!window.supabase||/PEGAR_AQUI/.test(SUPABASE_URL+SUPABASE_KEY)){S.auth='config';render();return}
+  sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){S.auth='login';render();return}
+  S.myId=session.user.email;$('#btn-salir').hidden=false;
+  let ok=[];try{ok=await q(sb.from('permitidos').select('email').ilike('email',S.myId))}catch(e){ok=[]}
+  if(!ok.length){S.auth='denied';render();return}
+  S.auth='ok';$('#btn-excel').hidden=false;
+  await loadAll();
+  sb.channel('cambios').on('postgres_changes',{event:'*',schema:'public'},loadSoon).subscribe();
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadSoon()});
+})();
+})();
+</script>
+</body>
+</html>
